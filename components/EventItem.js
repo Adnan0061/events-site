@@ -4,7 +4,7 @@ import classes from './EventItem.module.css'
 import Button from './ui/Button'
 
 function EventItem({ title, image, date, location, id}) {
-    console.log(date)
+    // console.log(date)
     const humanReadableDate = new Date(date).toLocaleDateString('en-us', {
         day: 'numeric',
         month: 'long',

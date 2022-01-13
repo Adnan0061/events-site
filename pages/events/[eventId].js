@@ -17,6 +17,9 @@ function EventDetailPage() {
       <ErrorAlert>
         <p>no event found</p>
       </ErrorAlert>
+      <div className="center">
+        <Button link="/events">Show All Events</Button>
+      </div>
     </Fragment>;
   }
   return (

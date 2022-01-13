@@ -32,6 +32,9 @@ function FilteredEventPage() {
         <ErrorAlert>
           <p>Invalid filter. Please Adjust your values</p>
         </ErrorAlert>
+        <div className="center">
+          <Button link="/events">Show All Events</Button>
+        </div>
       </Fragment>
     );
   }
@@ -47,6 +50,9 @@ function FilteredEventPage() {
         <ErrorAlert>
           <p>No Events found for this filter</p>
         </ErrorAlert>
+        <div className="center">
+          <Button link="/events">Show All Events</Button>
+        </div>
       </Fragment>
     );
   }
