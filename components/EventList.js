@@ -1,12 +1,18 @@
 import React from 'react'
 import EventItem from './EventItem'
 EventItem
+import classes from './EventList.module.css'
 
 function EventList({items}) {
 
     return (
-        <ul>
-        </ul>
+        <div>
+            {
+                items.map(event => (
+                    <EventItem key={event.id} title={event.title} image={event.image} date={event.date} location={event.location} id={event.id} />
+                ))
+            }
+        </div>
     )
 }
 
