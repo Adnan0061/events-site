@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import classes from './EventItem.module.css'
+import Button from './ui/Button'
 
 function EventItem({ title, image, date, location, id}) {
     console.log(date)
@@ -13,20 +14,20 @@ function EventItem({ title, image, date, location, id}) {
     const formattedAddress = location.replace(', ', '\n')
     const exploreLink = `/event/${id}`
     return (
-        <li>
+        <li className={classes.item}>
             <img src={'/' + image} alt={title} />
-            <div>
-                <div>
+            <div className={classes.content}>
+                <div  className={classes.summary}>
                     <h2>{title}</h2>
-                    <div>
+                    <div  className={classes.date}>
                         <time>{humanReadableDate}</time>
                     </div>
-                    <div>
+                    <div className={classes.address}>
                         <address>{formattedAddress}</address>
                     </div>
                 </div>
-                <div>
-                    <Link href={exploreLink}>Explore Event</Link>
+                <div className={classes.actions}>
+                    <Button link={exploreLink}>Explore Link</Button> 
                 </div>
             </div>
 

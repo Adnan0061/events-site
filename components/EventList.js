@@ -6,13 +6,13 @@ import classes from './EventList.module.css'
 function EventList({items}) {
 
     return (
-        <div>
+        <ul  className={classes.list}>
             {
                 items.map(event => (
                     <EventItem key={event.id} title={event.title} image={event.image} date={event.date} location={event.location} id={event.id} />
                 ))
             }
-        </div>
+        </ul>
     )
 }
 
