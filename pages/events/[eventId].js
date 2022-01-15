@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { Fragment } from "react";
-import { getAllEvents, getEventById } from "../../helpers/api-util";
+import { getFeaturedEvents, getEventById } from "../../helpers/api-util";
 import EventSummary from "../../components/EventDetail/EventSummary";
 import EventLogistics from "../../components/EventDetail/EventLogistics";
 import EventContent from "../../components/EventDetail/EventContent";
@@ -11,6 +11,7 @@ function EventDetailPage(props) {
   const event = props.selectedEvent;
 
   if (!event) {
+    return(
     <Fragment>
       <ErrorAlert>
         <p>no event found</p>
@@ -18,7 +19,8 @@ function EventDetailPage(props) {
       <div className="center">
         <Button link="/events">Show All Events</Button>
       </div>
-    </Fragment>;
+    </Fragment>
+    )
   }
   return (
     <Fragment>
@@ -44,18 +46,19 @@ export async function getStaticProps(context) {
   return {
     props: {
       selectedEvent: event
-    }
+    },
+    revalidate: 60
   }
 }
 
 export async function getStaticPaths() {
-  const events = await getAllEvents();
+  const events = await getFeaturedEvents();
 
   const paths = events.map( event => ({params: {eventId: event.id}}))
 
   return {
     paths: paths,
-    fallback: false
+    fallback: 'blocking'
   }
 } 
 export default EventDetailPage;
