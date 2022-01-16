@@ -92,46 +92,5 @@ function FilteredEventPage(props) {
   );
 }
 
-// export async function getServerSideProps(context) {
-//   const {params} = context
-
-//   const filterdata = params.slug
-
-//   const filterYear = filterdata[0];
-//   const filterMonth = filterdata[1];
-
-//   const numYear = +filterYear;
-//   const numMonth = +filterMonth;
-
-//   if (
-//     isNaN(numYear) ||
-//     isNaN(numMonth) ||
-//     numYear > 2030 ||
-//     numYear < 2021 ||
-//     numMonth > 12 ||
-//     numMonth < 1 ||
-//     error
-//   ) {
-//     return (
-//       {
-//         props: {hasError: true}
-//       }
-//     );
-//   }
-
-//   const filteredEvents = await getFilteredEvents({
-//     year: numYear,
-//     month: numMonth,
-//   });
-//   return {
-//     props: {
-//       events: filteredEvents,
-//       date: {
-//         year: numYear,
-//         month: numMonth
-//       }
-//     }
-//   }
-// }
 
 export default FilteredEventPage;
