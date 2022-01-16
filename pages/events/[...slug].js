@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
 import useSWR from "swr";
@@ -31,15 +32,17 @@ function FilteredEventPage(props) {
       setLoadedEvents(events)
     }
   },[data])
+
   if (!loadedEvents) {
     return <p className="center">Loading</p>;
   }
+
   const filterYear = filterdata[0];
   const filterMonth = filterdata[1];
 
   const numYear = +filterYear;
   const numMonth = +filterMonth;
-
+  
   if (
     isNaN(numYear) ||
     isNaN(numMonth) ||
@@ -85,6 +88,10 @@ function FilteredEventPage(props) {
   const date = new Date(numYear, numMonth - 1);
   return (
     <Fragment>
+      <Head>
+        <title>Filtered Events - Alt Events</title>
+        <meta name="description" content={`All events for ${numMonth}/${numYear}`} />
+      </Head>
       <EventsSearch onSearch={findEventHandler} />
       <EventList items={filteredEvents} />
       <ResultsTitle date={date} />
