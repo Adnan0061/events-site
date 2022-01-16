@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import classes from './EventItem.module.css'
-import Button from './ui/Button'
+import Button from '../ui/Button'
 
 function EventItem({ title, image, date, location, id}) {
     // console.log(date)

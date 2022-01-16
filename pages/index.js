@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import React, { useEffect } from 'react'
-import EventList from '../components/EventList';
+import EventList from '../components/Events/EventList';
+import NewsletterRegistration from '../components/input/newsletter-registration';
 import { getFeaturedEvents } from '../helpers/api-util'
 
 function HomePage (props) {
@@ -11,6 +12,7 @@ function HomePage (props) {
                 <title>Home Page - Alt Events</title>
                 <meta name='description' content='This is the homepage of Alt Events'/>
             </Head>
+            <NewsletterRegistration />
             <EventList items={props.events} />
         </div>
     )
