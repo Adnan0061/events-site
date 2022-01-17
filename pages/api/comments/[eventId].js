@@ -1,4 +1,4 @@
-import { connectDB, insertDoc, getAllDoc } from "../../../helpers/db-util";
+import { connectDB, insertDoc, getAllDoc, getSelectedDoc } from "../../../helpers/db-util";
 
 export default async function handler(req, res) {
   const eventId = req.query.eventId;
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const result = await getAllDoc(client, "comments", { _id: -1 });
+      const result = await getSelectedDoc(client, {eventId: eventId}, "comments", { _id: -1 });
       res.status(200).json({ comments: result });
     } catch (error) {
       res.status(500).json({ message: "Failed to get Comments" });

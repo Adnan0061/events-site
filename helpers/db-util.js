@@ -14,11 +14,23 @@ export async function insertDoc(client, collection, doc) {
 
   return result;
 }
+
 export async function getAllDoc(client, collection, sort) {
   const db = client.db();
 
   const documents = await db.collection(collection).
   find().
+  sort(sort).
+  toArray();
+
+  return documents;
+}
+
+export async function getSelectedDoc(client, query, collection, sort) {
+  const db = client.db();
+
+  const documents = await db.collection(collection).
+  find(query).
   sort(sort).
   toArray();
 
