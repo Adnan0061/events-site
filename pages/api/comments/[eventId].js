@@ -1,28 +1,58 @@
-export default function handler(req, res){
-    const eventId = req.query.eventId;
+import { connectDB, insertDoc, getAllDoc } from "../../../helpers/db-util";
 
-    if( req.method === "POST"){
-        const { email, name, comment } = req.body;
-        if(!email.includes('@') || !name || !name.trim() === '' || !text || !text.trim() === ''){
-            res.status(422).json({message: 'invalid input'})
-            return;
-        }
-        const newComment = {
-            id: new Date().toISOString(),
-            email,
-            name,
-            text,
-        }
-        console.log(newComment);
-        res.status(201).json({ message: 'Added Comment.'})
+export default async function handler(req, res) {
+  const eventId = req.query.eventId;
+
+  let client;
+
+  try {
+    client = await connectDB();
+  } catch (error) {
+    res.status(500).json("Database connecting failed");
+    return;
+  }
+
+  if (req.method === "POST") {
+    const { email, name, text } = req.body;
+
+    if (
+      !email.includes("@") ||
+      !name ||
+      !name.trim() === "" ||
+      !text ||
+      !text.trim() === ""
+    ) {
+      res.status(422).json({ message: "invalid input" });
+    //   client.close();
+      return;
     }
 
-    if( req.method === "GET"){
-        const dummyList = [
-            {id: 'c1', name: 'Max', text: 'A first comment'},
-            {id: 'c2', name: 'Man', text: 'A first comment'},
-        ];        
+    const newComment = {
+      email,
+      name,
+      text,
+      eventId,
+    };
 
-        res.status(200).json({ comments: dummyList })
+    let result;
+    try {
+      result = await insertDoc(client, "comments", newComment);
+      newComment._id = result.insertedId;
+
+      res.status(201).json({ message: "Added Comment.", comment: newComment });
+    } catch (error) {
+      res.status(500).json("Inserting document failed");
     }
+  }
+
+  if (req.method === "GET") {
+    try {
+      const result = await getAllDoc(client, "comments", { _id: -1 });
+      res.status(200).json({ comments: result });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get Comments" });
+    }
+  }
+
+//   client.close();
 }
