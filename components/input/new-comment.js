@@ -15,6 +15,12 @@ function NewComment(props) {
     const enteredName = nameInputRef.current.value;
     const enteredComment = commentInputRef.current.value;
 
+    props.notificationCtx.showNotification({
+      title: 'Posting ...',
+      message: 'Posting comment!!! wait a second',
+      status: 'pending'
+    })
+
     if (
       !enteredEmail ||
       enteredEmail.trim() === '' ||
@@ -33,6 +39,7 @@ function NewComment(props) {
       name: enteredName,
       text: enteredComment,
     });
+
   }
 
   return (

@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import CommentList from './comment-list';
 import NewComment from './new-comment';
 import classes from './comments.module.css';
+import NotificationContext from '../../store/NotificationContext';
 
 function Comments(props) {
   const { eventId } = props;
 
   const [comments, setComments] = useState();
   const [showComments, setShowComments] = useState(false);
+
+  const notificationCtx = useContext(NotificationContext)
 
   useEffect(()=>{
     if(showComments){
@@ -32,8 +35,27 @@ function Comments(props) {
       },
       body: JSON.stringify(commentData)
     })
-    .then(res => res.json())
-    .then(data => console.log(data))
+    .then(res => {
+      if(res.ok){
+        return res.json()
+      }
+      
+      return res.json().then(data => {throw new Error(data.message || 'Something went wrong')})
+    })
+    .then(data => {
+      notificationCtx.showNotification({
+        title: 'Success',
+        message: 'Successfully Posted Comment.',
+        status: 'success'
+      })
+    })
+    .catch(error => {
+      notificationCtx.showNotification({
+        title: 'Error!',
+        message: error.message || 'Something went wrong.',
+        status: 'error'
+      })
+    })
   }
 
   return (
@@ -41,7 +63,7 @@ function Comments(props) {
       <button onClick={toggleCommentsHandler}>
         {showComments ? 'Hide' : 'Show'} Comments
       </button>
-      {showComments && <NewComment onAddComment={addCommentHandler} />}
+      {showComments && <NewComment onAddComment={addCommentHandler} notificationCtx={notificationCtx} />}
       {showComments && <CommentList items={comments} />}
     </section>
   );
