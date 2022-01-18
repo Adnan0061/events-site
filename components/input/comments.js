@@ -20,7 +20,6 @@ function Comments(props) {
       .then(data => setComments(data.comments))
     }
   },[showComments])
-  console.log(comments)
 
   function toggleCommentsHandler() {
     setShowComments((prevStatus) => !prevStatus);

@@ -5,7 +5,6 @@ import NewsletterRegistration from '../components/input/newsletter-registration'
 import { getFeaturedEvents } from '../helpers/api-util'
 
 function HomePage (props) {
-    // console.log(props.events)
     return (
         <div>
             <Head>
@@ -21,7 +20,6 @@ function HomePage (props) {
 
 export async function getStaticProps() {
     const featuredEvents = await getFeaturedEvents()
-    // console.log(featuredEvents)
     return {
         props: {
             events: featuredEvents

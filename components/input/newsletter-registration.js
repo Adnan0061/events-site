@@ -12,8 +12,6 @@ function NewsletterRegistration() {
     
     const enteredEmail = userEmail.current.value;
     
-    // console.log(enteredEmail)
-
     notificationCtx.showNotification({
       title: 'Signing up ...',
       message: 'Registration for newsletter.',

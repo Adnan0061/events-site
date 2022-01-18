@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 
 export async function connectDB() {
   const client = await MongoClient.connect(
-    "mongodb+srv://eventList:Asdf1234@cluster0.70s8n.mongodb.net/EventsSite?retryWrites=true&w=majority"
+    `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clusterName}.70s8n.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`
   );
   return client;
 }
