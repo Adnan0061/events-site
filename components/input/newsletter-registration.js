@@ -1,17 +1,25 @@
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
+import NotificationContext from '../../store/NotificationContext';
 import classes from './newsletter-registration.module.css';
 
 function NewsletterRegistration() {
   const userEmail = useRef()
+  const notificationCtx = useContext(NotificationContext)
+  
   
   function registrationHandler(event) {
     event.preventDefault();
-
-    // fetch user input (state or refs)
+    
     const enteredEmail = userEmail.current.value;
-    // optional: validate input
-    // send valid data to API
-    console.log(enteredEmail)
+    
+    // console.log(enteredEmail)
+
+    notificationCtx.showNotification({
+      title: 'Signing up ...',
+      message: 'Registration for newsletter.',
+      status: 'pending'
+    })
+
     fetch('/api/newsletter', {
       method: "POST",
       headers: {
@@ -19,8 +27,27 @@ function NewsletterRegistration() {
       },
       body: JSON.stringify({email: enteredEmail})
     })
-    .then(res => res.json())
-    .then(data => console.log(data));
+    .then(res => {
+      if(res.ok){
+        return res.json()
+      }
+      
+      return res.json().then(data => {throw new Error(data.message || 'Something went wrong')})
+    })
+    .then(data => {
+      notificationCtx.showNotification({
+        title: 'Success',
+        message: 'Registration Successful.',
+        status: 'success'
+      })
+    })
+    .catch(error => {
+      notificationCtx.showNotification({
+        title: 'Error!',
+        message: error.message || 'Something went wrong.',
+        status: 'error'
+      })
+    })
   }
 
   return (
