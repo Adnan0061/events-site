@@ -7,34 +7,34 @@ import EventsSearch from "../../components/Events/EventsSearch";
 import ResultsTitle from "../../components/Events/ResultsTitle";
 import Button from "../../components/ui/Button";
 import ErrorAlert from "../../components/ui/ErrorAlert";
-import { getFilteredEvents } from "../../helpers/api-util";
-
-
+// import { getFilteredEvents } from "../../helpers/api-util";
 
 function FilteredEventPage(props) {
-  const [loadedEvents, setLoadedEvents] = useState([])
+  const [loadedEvents, setLoadedEvents] = useState([]);
   const router = useRouter();
-  
+
   const filterdata = router.query.slug;
 
-  const { data, error } = useSWR('https://alt-events---nextjs-default-rtdb.firebaseio.com/events.json')
-
-  useEffect(()=>{
-    if(data){
-      const events = [];
+  const { data, error } = useSWR("https://alt-events---nextjs-default-rtdb.firebaseio.com/events.json")
   
+  console.log(data)
+  useEffect(() => {
+
+    if (data) {
+      const events = [];
+
       for (const key in data) {
-          events.push({
-              id: key,
-              ...data[key]
-          })
+        events.push({
+          id: key,
+          ...data[key],
+        });
       }
-      setLoadedEvents(events)
+      setLoadedEvents(events);
     }
-  },[data])
+  }, [data]);
 
   if (!loadedEvents) {
-    return <p className="center">Loading</p>;
+    return <p className="center">Loading...</p>;
   }
 
   const filterYear = filterdata[0];
@@ -42,7 +42,7 @@ function FilteredEventPage(props) {
 
   const numYear = +filterYear;
   const numMonth = +filterMonth;
-  
+
   if (
     isNaN(numYear) ||
     isNaN(numMonth) ||
@@ -64,9 +64,13 @@ function FilteredEventPage(props) {
 
   const filteredEvents = loadedEvents.filter((event) => {
     const eventDate = new Date(event.date);
-    return eventDate.getFullYear() === numYear && eventDate.getMonth() === numMonth - 1
+    return (
+      eventDate.getFullYear() === numYear &&
+      eventDate.getMonth() === numMonth - 1
+    );
   });
 
+  console.log(filteredEvents.length);
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
@@ -90,7 +94,10 @@ function FilteredEventPage(props) {
     <Fragment>
       <Head>
         <title>Filtered Events - Alt Events</title>
-        <meta name="description" content={`All events for ${numMonth}/${numYear}`} />
+        <meta
+          name="description"
+          content={`All events for ${numMonth}/${numYear}`}
+        />
       </Head>
       <EventsSearch onSearch={findEventHandler} />
       <EventList items={filteredEvents} />
@@ -98,6 +105,5 @@ function FilteredEventPage(props) {
     </Fragment>
   );
 }
-
 
 export default FilteredEventPage;
