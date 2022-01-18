@@ -17,7 +17,10 @@ function AllEventsPage(props) {
     <Fragment>
       <Head>
         <title>All Event page - Alt Events</title>
-        <meta name="description" content="This is the page where all events are found" />
+        <meta
+          name="description"
+          content="This is the page where all events are found"
+        />
       </Head>
       <EventsSearch onSearch={findEventHandler} />
       <EventList items={events} />
