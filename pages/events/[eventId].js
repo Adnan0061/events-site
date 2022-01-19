@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React, { Fragment } from "react";
 import { getFeaturedEvents, getEventById } from "../../helpers/api-util";
 import EventSummary from "../../components/EventDetail/EventSummary";
@@ -10,7 +9,7 @@ import Comments from "../../components/input/comments";
 import Head from "next/head";
 
 function EventDetailPage(props) {
-  const event = props.selectedEvent;
+  const event = props.selectedEvent;  
 
   if (!event) {
     return(
@@ -59,6 +58,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
+
   const events = await getFeaturedEvents();
 
   const paths = events.map( event => ({params: {eventId: event.id}}))

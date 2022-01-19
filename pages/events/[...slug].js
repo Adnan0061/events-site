@@ -7,20 +7,23 @@ import EventsSearch from "../../components/Events/EventsSearch";
 import ResultsTitle from "../../components/Events/ResultsTitle";
 import Button from "../../components/ui/Button";
 import ErrorAlert from "../../components/ui/ErrorAlert";
-// import { getFilteredEvents } from "../../helpers/api-util";
+
+const fetcher = (url) => fetch(url).then(res => res.json())
 
 function FilteredEventPage(props) {
-  const [loadedEvents, setLoadedEvents] = useState([]);
+  let loadedEvents = [];
   const router = useRouter();
 
-  const filterdata = router.query.slug;
 
-  const { data, error } = useSWR("https://alt-events---nextjs-default-rtdb.firebaseio.com/events.json")
   
-  console.log(data)
-  useEffect(() => {
 
-    if (data) {
+  const { data, error } = useSWR("https://alt-events---nextjs-default-rtdb.firebaseio.com/events.json", fetcher)
+  if (error) return "An error has occurred.";
+  if (!data) return "Loading...";
+  
+  // useEffect(() => {
+
+    // if (data) {
       const events = [];
 
       for (const key in data) {
@@ -29,13 +32,20 @@ function FilteredEventPage(props) {
           ...data[key],
         });
       }
-      setLoadedEvents(events);
-    }
-  }, [data]);
+      // setLoadedEvents(events);
+    // }
+  //   console.log(data)
+  // }, [data]);
+
+  loadedEvents = events
+  // if (data) return "Loading  ended";
+  
 
   if (!loadedEvents) {
     return <p className="center">Loading...</p>;
   }
+
+  const filterdata = router.query.slug;
 
   const filterYear = filterdata[0];
   const filterMonth = filterdata[1];
@@ -62,6 +72,7 @@ function FilteredEventPage(props) {
     );
   }
 
+  
   const filteredEvents = loadedEvents.filter((event) => {
     const eventDate = new Date(event.date);
     return (
@@ -70,7 +81,6 @@ function FilteredEventPage(props) {
     );
   });
 
-  console.log(filteredEvents.length);
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
@@ -99,7 +109,7 @@ function FilteredEventPage(props) {
           content={`All events for ${numMonth}/${numYear}`}
         />
       </Head>
-      <EventsSearch onSearch={findEventHandler} />
+      <EventsSearch onSearch={findEventHandler} year={numYear} month={numMonth} />
       <EventList items={filteredEvents} />
       <ResultsTitle date={date} />
     </Fragment>
