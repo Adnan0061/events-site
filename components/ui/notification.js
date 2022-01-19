@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import NotificationContext from '../../store/NotificationContext';
 import classes from './Notification.module.css';
 
-function Notification(props) {
+export function Notification(props) {
   const notificationCtx = useContext(NotificationContext);
 
 
@@ -32,5 +32,3 @@ function Notification(props) {
     </div>
   );
 }
-
-export default Notification;
