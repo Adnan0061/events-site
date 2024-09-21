@@ -20,7 +20,7 @@ class ChatwootWidget extends React.Component {
       s.parentNode.insertBefore(g,s);
       g.onload=function(){
         window.chatwootSDK.run({
-          websiteToken: 'koe11nYnacFHMGK2TVZy1jP9',
+          websiteToken: 'process.env.WEBSITE-TOKEN',
           baseUrl: BASE_URL
         })
       }
