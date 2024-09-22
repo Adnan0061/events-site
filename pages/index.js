@@ -15,9 +15,10 @@ function HomePage (props) {
             </Head>
             <ChatwootWidget />
             <NewsletterRegistration />
-            <EventList items={props.events} />
+            {props.events ? <EventList items={props.events} /> : <p>No events found</p>}
         </div>
     )
+
 }
 
 export async function getStaticProps() {
