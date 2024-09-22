@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import NotificationContext from "../../store/NotificationContext";
-import Notification from "../ui/Notification";
+// import Notification from "../ui/Notification";
 import MainHeader from "./MainHeader";
 
 function Layout(props) {
@@ -11,13 +11,13 @@ function Layout(props) {
     <Fragment>
       <MainHeader />
       <main>{props.children}</main>
-      {activeNotification && (
+      {/* {activeNotification && (
         <Notification
           title={activeNotification.title}
           message={activeNotification.message}
           status={activeNotification.status}
         />
-      )}
+      )} */}
     </Fragment>
   );
 }
